@@ -1,0 +1,4 @@
+libcue
+======
+
+An extremely simple example of a portably-safe signal handler in C.
