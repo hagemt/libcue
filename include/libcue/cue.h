@@ -6,16 +6,22 @@ extern "C" {
 #endif /* if C++ */
 
 extern int
-cue_happened(int);
+cue_default(int);
 
 extern int
-cue_off(int);
+cue_happened(void);
+
+extern int
+cue_ignore(int);
 
 extern int
 cue_on(int);
 
 extern int
-cue_signal(int);
+cue_raise(int);
+
+extern int
+cue_reset(void);
 
 #ifdef __cplusplus
 } /* extern "C" */

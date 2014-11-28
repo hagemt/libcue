@@ -21,6 +21,26 @@ __signal__(int, void (*)(int));
 /***/
 
 int
+cue_default(int signum)
+{
+	assert(0 < signum && signum < NSIG);
+	return __signal__(signum, SIG_DFL);
+}
+
+int
+cue_happened(void)
+{
+	return (__canary__) ? 1 : 0;
+}
+
+int
+cue_ignore(int signum)
+{
+	assert(0 < signum && signum < NSIG);
+	return __signal__(signum, SIG_IGN);
+}
+
+int
 cue_on(int signum)
 {
 	assert(0 < signum && signum < NSIG);
@@ -28,24 +48,17 @@ cue_on(int signum)
 }
 
 int
-cue_happened(int signum)
-{
-	assert(0 < signum && signum < NSIG);
-	return (__canary__) ? signum : 0;
-}
-
-int
-cue_signal(int signum)
+cue_raise(int signum)
 {
 	assert(0 < signum && signum < NSIG);
 	return raise(signum);
 }
 
 int
-cue_off(int signum)
+cue_reset(void)
 {
-	assert(0 < signum && signum < NSIG);
-	return __signal__(signum, SIG_DFL);
+	__canary__ = 0;
+	return cue_happened();
 }
 
 /***/

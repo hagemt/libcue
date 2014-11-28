@@ -26,22 +26,21 @@ main(int argc, cstring argv[])
 	}
 
 	for (;;) {
-		if ((signum = cue_happened(SIGTEST))) {
-			(void) fprintf(stdout, "[INFO] caught signal %d (%s)\n",
-					signum, strsignal(signum));
+		if (cue_happened()) {
+			(void) fprintf(stdout, "[CUE] reports that a signal was caught\n");
 			break;
 		} else {
 			(void) fprintf(stderr, "%c [TRACE] sleeping (%08dx%dms)\r",
 					SIGSYMB[(i / SIGTIME) % (sizeof(SIGSYMB) - 1)], i, SIGTIME);
 		}
 		(void) usleep((useconds_t) SIGTIME);
-		if (!i++ && (e = cue_signal(SIGTEST))) {
+		if (!i++ && (e = cue_raise(SIGTEST))) {
 			(void) fprintf(stderr, "[%s] %s(%d) = %d %s (%d: %s)\n", "WARNING",
 					"cue_signal", SIGTEST, e, WHERE, errno, strerror(errno));
 		}
 	}
 
-	if ((e = cue_off(SIGTEST))) {
+	if ((e = cue_default(SIGTEST))) {
 		(void) fprintf(stderr, "[%s] %s(%d) = %d %s (%d: %s)\n", "ERROR",
 				"cue_off", SIGTEST, e, WHERE, errno, strerror(errno));
 		return EXIT_FAILURE;
